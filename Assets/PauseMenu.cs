@@ -15,7 +15,8 @@ public class PauseMenu : MonoBehaviour
         else
             return;
 
-        paused = false;
+        paused = true;
+        Pause();
     }
 
     public void Pause()
@@ -38,6 +39,10 @@ public class PauseMenu : MonoBehaviour
 
     public void Quit()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }    
 }
