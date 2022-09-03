@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        keyboardController = new KeyboardController();
         keyboardController = new KeyboardController(
             new Dictionary<KeyCode, Action>() { },
             new Dictionary<KeyCode, Action>() { },
@@ -20,6 +21,13 @@ public class Player : MonoBehaviour
                 { KeyCode.S, () => { movement.ForwardMotion -= 1; } },
                 { KeyCode.D, () => { movement.SidewaysMotion += 1; } },
             });
+    }
+
+    private void Start()
+    {
+        keyboardController.RebindKeyPressActions(new Dictionary<KeyCode, Action>(){
+            { KeyCode.Escape, PauseMenu.Instance.Pause },
+        });
     }
 
     private void Update()
