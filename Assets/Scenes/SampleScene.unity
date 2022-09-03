@@ -1481,8 +1481,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayContainer: {fileID: 378121148}
   rayPrefab: {fileID: 35696748557442695, guid: d973917efb4127c49b8fb5f82ac91525, type: 3}
-  numOfRays: 20
-  angleFromCenter: 15
+  raysPerLayer: 10
+  numOfLayers: 10
+  angleFromCenter: 10
 --- !u!1 &1271418451
 GameObject:
   m_ObjectHideFlags: 0
