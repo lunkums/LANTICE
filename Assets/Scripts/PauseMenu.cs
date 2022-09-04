@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour
         Pause();
     }
 
-    public void Pause()
+    public bool Pause()
     {
         paused = !paused;
         if (paused)
@@ -35,6 +35,8 @@ public class PauseMenu : MonoBehaviour
             Cursor.visible = false;
         }
         pauseCanvas.SetActive(paused);
+
+        return paused;
     }
 
     public void Quit()
