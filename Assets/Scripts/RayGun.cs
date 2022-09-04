@@ -1,6 +1,6 @@
+using System;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class RayGun : MonoBehaviour
 {
@@ -8,8 +8,11 @@ public class RayGun : MonoBehaviour
     [SerializeField] private GameObject rayPrefab;
     [SerializeField] private int raysPerLayer;
     [SerializeField] private int numOfLayers;
-    [SerializeField] private float angleFromCenter;
     [SerializeField] private DotRenderer dotRenderer;
+    [SerializeField] private PaintAngles paintAngles;
+    [SerializeField] private float angleAdjustSensitivity;
+
+    private float paintAngle;
 
     private GameObject[,] paintRays;
     private Transform[] samplePaintRays;
@@ -45,6 +48,7 @@ public class RayGun : MonoBehaviour
     {
         paintRays = new GameObject[raysPerLayer, numOfLayers];
         samplePaintRays = new Transform[numOfLayers];
+        paintAngle = paintAngles.initial;
 
         for (int i = 0; i < numOfLayers; i++)
         {
@@ -64,7 +68,12 @@ public class RayGun : MonoBehaviour
         Scan();
     }
 
-    public void Scan()
+    public void AdjustPaintAngle(float scrollDelta)
+    {
+        paintAngle = Mathf.Clamp(paintAngle + scrollDelta * angleAdjustSensitivity, paintAngles.min, paintAngles.max);
+    }
+
+    private void Scan()
     {
         if (!scanning)
             return;
@@ -73,7 +82,7 @@ public class RayGun : MonoBehaviour
     }
 
     // Paint dots on the geometry
-    public void Paint()
+    private void Paint()
     {
         if (!painting)
             return;
@@ -87,7 +96,7 @@ public class RayGun : MonoBehaviour
     {
         for (int i = 0; i < numOfLayers; i++)
         {
-            float angleFromCenter = this.angleFromCenter * ((i + 1) / (float)numOfLayers);
+            float angleFromCenter = paintAngle * ((i + 1) / (float)numOfLayers);
             float radianOffset = Random.Range(0, 2 * Mathf.PI);
 
             for (int j = 0; j < raysPerLayer; j++)
@@ -120,5 +129,14 @@ public class RayGun : MonoBehaviour
         {
             ray.SetActive(active);
         }
+    }
+
+    // Paint angles are measured from center line to edge of paint volume (half of the "point" angle of a cone)
+    [Serializable]
+    private struct PaintAngles
+    {
+        public float min;
+        public float max;
+        public float initial;
     }
 }

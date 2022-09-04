@@ -734,7 +734,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1200933819}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
@@ -1608,8 +1608,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1871439634}
   - {fileID: 378121148}
+  - {fileID: 1871439634}
   - {fileID: 2076901417}
   m_Father: {fileID: 1107535635}
   m_RootOrder: 0
@@ -1646,8 +1646,12 @@ MonoBehaviour:
   rayPrefab: {fileID: 35696748557442695, guid: d973917efb4127c49b8fb5f82ac91525, type: 3}
   raysPerLayer: 10
   numOfLayers: 10
-  angleFromCenter: 15
   dotRenderer: {fileID: 707839162}
+  paintAngles:
+    min: 5
+    max: 30
+    initial: 15
+  angleAdjustSensitivity: 5
 --- !u!1 &1271418451
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,7 +2157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1701418494}
   - component: {fileID: 1701418493}
-  - component: {fileID: 1701418492}
+  - component: {fileID: 1701418496}
   - component: {fileID: 1701418495}
   m_Layer: 0
   m_Name: Player
@@ -2162,20 +2166,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1701418492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701418491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 430d225c6f79a7c45b1e96e0cb540d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movement: {fileID: 1701418495}
-  rayGun: {fileID: 1200933821}
 --- !u!143 &1701418493
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2224,6 +2214,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 1701418493}
   speed: 5
+--- !u!114 &1701418496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701418491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f422e9775dc31ee4b9c4845289df015b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 1701418495}
+  rayGun: {fileID: 1200933821}
+  firstPersonView: {fileID: 1107535636}
 --- !u!1001 &1871439633
 PrefabInstance:
   m_ObjectHideFlags: 0

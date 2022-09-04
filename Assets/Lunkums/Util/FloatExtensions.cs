@@ -1,9 +1,12 @@
-using UnityEngine;
-
-public static class FloatExtensions
+namespace Lunkums.Util
 {
-    public static bool IsZero(this float num)
+    using UnityEngine;
+
+    public static class FloatExtensions
     {
-        return Mathf.Approximately(num, 0);
+        public static bool IsZero(this float num)
+        {
+            return Mathf.Approximately(num, 0);
+        }
     }
 }

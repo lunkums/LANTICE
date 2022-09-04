@@ -1,7 +1,10 @@
-﻿public enum Direction
+﻿namespace Lunkums._2D
 {
-    North,
-    East,
-    South,
-    West
+    public enum Direction
+    {
+        North,
+        East,
+        South,
+        West
+    }
 }

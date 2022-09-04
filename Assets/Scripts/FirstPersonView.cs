@@ -20,29 +20,25 @@ public class FirstPersonView : MonoBehaviour
 
     private void Update()
     {
-        AdjustPitch(Time.deltaTime);
-        AdjustYaw(Time.deltaTime);
-
         SetCameraXRotation(Vector3.right * pitch);
         SetPlayerYRotation(Vector3.up * yaw);
     }
 
-    private void AdjustPitch(float deltaTime)
+    public void AdjustView(Vector2 mouseInput)
     {
-        pitch -= GetAdjustedSensitivity(deltaTime).y * Input.GetAxisRaw("Mouse Y") * deltaTime;
+        AdjustPitch(mouseInput.y);
+        AdjustYaw(mouseInput.x);
+    }
+
+    private void AdjustPitch(float deltaY)
+    {
+        pitch -= sensitivity.y * deltaY;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
     }
 
-    private void AdjustYaw(float deltaTime)
+    private void AdjustYaw(float deltaX)
     {
-        yaw += GetAdjustedSensitivity(deltaTime).x * Input.GetAxisRaw("Mouse X") * deltaTime;
-    }
-
-    // Adjusted sensitivity allows for easier control over the base sensitivity while still allowing for the effects of
-    // a timescale of 0.
-    private Vector2 GetAdjustedSensitivity(float deltaTime)
-    {
-        return deltaTime.IsZero() ? Vector2.zero : sensitivity / deltaTime;
+        yaw += sensitivity.x * deltaX;
     }
 
     private void SetCameraXRotation(Vector3 rotation)
