@@ -1,4 +1,6 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UIElements;
 
 public class RayGun : MonoBehaviour
 {
@@ -7,7 +9,7 @@ public class RayGun : MonoBehaviour
     [SerializeField] private int raysPerLayer;
     [SerializeField] private int numOfLayers;
     [SerializeField] private float angleFromCenter;
-    [SerializeField] private GameObject decal;
+    [SerializeField] private DotRenderer dotRenderer;
 
     private GameObject[,] paintRays;
     private Transform[] samplePaintRays;
@@ -77,14 +79,8 @@ public class RayGun : MonoBehaviour
             return;
 
         RandomlyOrientRays(paintRays);
-        RandomlyPaintDecals(samplePaintRays);
+        RandomlyPaintDots(samplePaintRays);
         Painting = false;
-    }
-
-    private void PaintDecal(Vector3 position, Transform target)
-    {
-        Instantiate(decal, position, Quaternion.FromToRotation(Vector3.forward, target.forward)).transform
-            .SetParent(target.transform);
     }
 
     private void RandomlyOrientRays(GameObject[,] rays)
@@ -103,14 +99,18 @@ public class RayGun : MonoBehaviour
         }
     }
 
-    private void RandomlyPaintDecals(Transform[] rays)
+    private void RandomlyPaintDots(Transform[] rays)
     {
         foreach (Transform ray in rays)
         {
             if (!Physics.Raycast(ray.position, ray.forward, out RaycastHit hit))
                 continue;
 
-            PaintDecal(hit.point, hit.transform);
+            dotRenderer.CreateDot(
+                hit.point, 
+                Quaternion.FromToRotation(Vector3.forward, hit.transform.forward),
+                Color.white
+                );
         }
     }
 
