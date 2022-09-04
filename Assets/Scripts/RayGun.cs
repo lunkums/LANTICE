@@ -20,7 +20,6 @@ public class RayGun : MonoBehaviour
                 paintRays[i, j] = Instantiate(rayPrefab, rayContainer);
             }
         }
-        Debug.Log(paintRays.Length);
     }
 
     private void Update()
@@ -42,12 +41,12 @@ public class RayGun : MonoBehaviour
     {
         for (int i = 0; i < numOfLayers; i++)
         {
-            float angleFromCenter = this.angleFromCenter * ((float)i + 1 / numOfLayers);
+            float angleFromCenter = this.angleFromCenter * ((i + 1) / (float)numOfLayers);
             float radianOffset = Random.Range(0, 2 * Mathf.PI);
 
             for (int j = 0; j < raysPerLayer; j++)
             {
-                float radians = 2 * Mathf.PI * ((float)j / raysPerLayer);
+                float radians = 2 * Mathf.PI * (j / (float)raysPerLayer) + radianOffset;
                 rays[i, j].transform.localEulerAngles = angleFromCenter *
                     new Vector3(Mathf.Sin(radians), Mathf.Cos(radians), 0);
             }
