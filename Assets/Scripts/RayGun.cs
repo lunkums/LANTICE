@@ -23,10 +23,12 @@ public class RayGun : MonoBehaviour
     [SerializeField] private int numOfScanRays;
     [SerializeField] private float verticalScanAngle;
     [SerializeField] private float horizontalScanAngle;
-    [SerializeField] private float scanRate;
+    [SerializeField] private float secondsBetweenScans;
 
     private float paintAngle;
     private float scanAngle;
+    // Either 1 or 0 - used to randomly sample half of all scan rays while scanning
+    private int scanRayPass;
 
     private GameObject[,] paintRays;
     private GameObject[] scanRays;
@@ -101,6 +103,7 @@ public class RayGun : MonoBehaviour
     {
         scanRays = new GameObject[numOfScanRays];
         scanAngle = -1;
+        scanRayPass = 0;
 
         for (int i = 0; i < numOfScanRays; i++)
         {
@@ -126,7 +129,7 @@ public class RayGun : MonoBehaviour
         if (!scanning)
             return;
 
-        scanAngle -= scanRate * deltaTime;
+        scanAngle -= secondsBetweenScans * deltaTime;
         AdjustScanRays();
 
         Scanning = false;
@@ -158,6 +161,7 @@ public class RayGun : MonoBehaviour
     private void AdjustScanRays()
     {
         RaycastHit hit = new RaycastHit();
+        scanRayPass = (scanRayPass + 1) % 2;
 
         for (int i = 0; i < numOfScanRays; i++)
         {
@@ -167,7 +171,8 @@ public class RayGun : MonoBehaviour
                 verticalScanAngle,
                 Mathf.PI * Random.Range(i / (float)numOfScanRays, i + 1 / (float)numOfScanRays),
                 scanAngle,
-                ref hit))
+                ref hit)
+                && i % 2 == scanRayPass)
             {
                 CreateDotFromRaycast(hit);
             }
