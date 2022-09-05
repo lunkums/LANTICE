@@ -4,18 +4,18 @@ using Random = UnityEngine.Random;
 
 public class RayGun : MonoBehaviour
 {
+    [SerializeField] private DotRenderer dotRenderer;
     [SerializeField] private Transform rayContainer;
     [SerializeField] private GameObject rayPrefab;
+    [SerializeField] private float rayDistance;
     [SerializeField] private int raysPerLayer;
     [SerializeField] private int numOfLayers;
-    [SerializeField] private DotRenderer dotRenderer;
     [SerializeField] private PaintAngles paintAngles;
     [SerializeField] private float angleAdjustSensitivity;
 
     private float paintAngle;
 
     private GameObject[,] paintRays;
-    private Transform[] samplePaintRays;
     private GameObject[] scanRays;
 
     private bool scanning;
@@ -40,14 +40,13 @@ public class RayGun : MonoBehaviour
             {
                 Scanning = false;
             }
-            SetActiveRays(paintRays, painting);
+            SetRaysActive(paintRays, painting);
         }
     }
 
     private void Awake()
     {
         paintRays = new GameObject[raysPerLayer, numOfLayers];
-        samplePaintRays = new Transform[numOfLayers];
         paintAngle = paintAngles.initial;
 
         for (int i = 0; i < numOfLayers; i++)
@@ -56,7 +55,6 @@ public class RayGun : MonoBehaviour
             {
                 paintRays[i, j] = Instantiate(rayPrefab, rayContainer);
             }
-            samplePaintRays[i] = paintRays[i, 0].transform;
         }
 
         Scanning = Painting = false;
@@ -81,49 +79,75 @@ public class RayGun : MonoBehaviour
         Scanning = false;
     }
 
-    // Paint dots on the geometry
+    // Paint dots on the geometry in a scattered circle pattern
     private void Paint()
     {
         if (!painting)
             return;
 
-        RandomlyOrientRays(paintRays);
-        RandomlyPaintDots(samplePaintRays);
+        AdjustPaintRays();
         Painting = false;
     }
 
-    private void RandomlyOrientRays(GameObject[,] rays)
+    // Randomizes the orientation of all paint rays, resizes them to the distance from the surface they hit, and paints
+    // a dot for the first ray in each ray layer
+    private void AdjustPaintRays()
     {
         for (int i = 0; i < numOfLayers; i++)
         {
-            float angleFromCenter = paintAngle * ((i + 1) / (float)numOfLayers);
+            float angleFromCenter = Random.Range(
+                paintAngle * (i / (float)numOfLayers),
+                paintAngle * ((i + 1) / (float)numOfLayers));
             float radianOffset = Random.Range(0, 2 * Mathf.PI);
+            RaycastHit hit = new RaycastHit();
 
-            for (int j = 0; j < raysPerLayer; j++)
+            if (AdjustPaintRayFromRaycast(paintRays[i, 0].transform, angleFromCenter, radianOffset, ref hit))
+                CreateDotFromRaycast(hit);
+
+            for (int j = 1; j < raysPerLayer; j++)
             {
                 float radians = 2 * Mathf.PI * (j / (float)raysPerLayer) + radianOffset;
-                rays[i, j].transform.localEulerAngles = angleFromCenter *
-                    new Vector3(Mathf.Sin(radians), Mathf.Cos(radians), 0);
+                AdjustPaintRayFromRaycast(paintRays[i, j].transform, angleFromCenter, radians, ref hit);
             }
         }
     }
 
-    private void RandomlyPaintDots(Transform[] rays)
+    // Tries to adjust the paint ray from a raycast, returning whether the raycast hit was successful
+    private bool AdjustPaintRayFromRaycast(Transform ray, float angleFromCenter, float radians, ref RaycastHit hit)
     {
-        foreach (Transform ray in rays)
-        {
-            if (!Physics.Raycast(ray.position, ray.forward, out RaycastHit hit))
-                continue;
+        OrientRay(ray, angleFromCenter, radians);
 
-            dotRenderer.CreateDot(
-                hit.point, 
-                Quaternion.FromToRotation(Vector3.forward, hit.transform.forward),
-                Color.white
-                );
+        if (!Physics.Raycast(ray.position, ray.forward, out hit, rayDistance))
+        {
+            ResizeRay(ray, 0);
+            return false;
         }
+
+        ResizeRay(ray, hit.distance);
+        return true;
     }
 
-    private void SetActiveRays(GameObject[,] rays, bool active)
+    private void OrientRay(Transform ray, float angleFromCenter, float radians)
+    {
+        ray.localEulerAngles = angleFromCenter *
+            new Vector3(Mathf.Sin(radians), Mathf.Cos(radians), 0);
+    }
+
+    private void ResizeRay(Transform ray, float length)
+    {
+        ray.localScale = new Vector3(1, 1, length);
+    }
+
+    private void CreateDotFromRaycast(RaycastHit hit)
+    {
+        dotRenderer.CreateDot(
+            hit.point, 
+            Quaternion.FromToRotation(Vector3.forward, hit.transform.forward),
+            Color.white
+            );
+    }
+
+    private void SetRaysActive(GameObject[,] rays, bool active)
     {
         foreach (GameObject ray in rays)
         {
