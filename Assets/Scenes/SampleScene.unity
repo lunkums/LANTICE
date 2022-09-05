@@ -1935,17 +1935,13 @@ MonoBehaviour:
   raysPerLayer: 10
   numOfLayers: 10
   barrelLight: {fileID: 479451202}
+  scanner: {fileID: 2076901419}
   paintRayContainer: {fileID: 378121148}
   paintAngles:
     min: 5
     max: 30
     initial: 15
   angleAdjustSensitivity: 5
-  scanRayContainer: {fileID: 2076901417}
-  numOfScanRays: 200
-  verticalScanAngle: 30
-  horizontalScanAngle: 50
-  scanRate: 1
 --- !u!1 &1271418451
 GameObject:
   m_ObjectHideFlags: 0
@@ -2872,6 +2868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2076901417}
+  - component: {fileID: 2076901419}
   m_Layer: 0
   m_Name: Scan Rays
   m_TagString: Untagged
@@ -2894,6 +2891,24 @@ Transform:
   m_Father: {fileID: 1200933819}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2076901419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076901416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6702f8f3c1f8ee648a7b4ae5f00c1c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dotColor: {r: 1, g: 1, b: 1, a: 1}
+  scanRayContainer: {fileID: 2076901417}
+  numOfScanRays: 200
+  verticalScanAngle: 15
+  horizontalScanAngle: 50
+  scanRate: 1
 --- !u!1 &2099540396
 GameObject:
   m_ObjectHideFlags: 0
