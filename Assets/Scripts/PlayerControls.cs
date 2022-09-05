@@ -49,13 +49,14 @@ public class PlayerControls : MonoBehaviour
                 { KeyCode.Escape, Pause },
                 { KeyCode.F12, dotRenderer.Clear },
             },
-            new Dictionary<KeyCode, Action>() { },
+            new Dictionary<KeyCode, Action>() {
+                { KeyCode.Mouse0, () => rayGun.Scanning = true },
+            },
             new Dictionary<KeyCode, Action>() {
                 { KeyCode.W, () => movement.ForwardMotion += 1 },
                 { KeyCode.A, () => movement.SidewaysMotion -= 1 },
                 { KeyCode.S, () => movement.ForwardMotion -= 1 },
                 { KeyCode.D, () => movement.SidewaysMotion += 1 },
-                { KeyCode.Mouse0, () => rayGun.Scanning = true },
                 { KeyCode.Mouse1, () => rayGun.Painting = true },
             });
     }

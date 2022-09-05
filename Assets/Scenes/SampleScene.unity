@@ -888,7 +888,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &416641126
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1910,17 +1910,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dotRenderer: {fileID: 707839162}
   dotColor: {r: 1, g: 0.98466223, b: 0.7971698, a: 1}
-  rayContainer: {fileID: 378121148}
   rayPrefab: {fileID: 35696748557442695, guid: d973917efb4127c49b8fb5f82ac91525, type: 3}
   rayDistance: 50
   raysPerLayer: 10
   numOfLayers: 10
   barrelLight: {fileID: 479451202}
+  paintRayContainer: {fileID: 378121148}
   paintAngles:
     min: 5
     max: 30
     initial: 15
   angleAdjustSensitivity: 5
+  scanRayContainer: {fileID: 2076901417}
+  numOfScanRays: 200
+  verticalScanAngle: 30
+  horizontalScanAngle: 50
+  scanRate: 1
 --- !u!1 &1271418451
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,7 +9,6 @@ public class RayGun : MonoBehaviour
     [SerializeField] private DotRenderer dotRenderer;
     [SerializeField] private Color dotColor = Color.white;
 
-    [SerializeField] private Transform rayContainer;
     [SerializeField] private GameObject rayPrefab;
     [SerializeField] private float rayDistance;
     [SerializeField] private int raysPerLayer;
@@ -15,10 +16,19 @@ public class RayGun : MonoBehaviour
 
     [SerializeField] private GameObject barrelLight;
 
+    [SerializeField] private Transform paintRayContainer;
     [SerializeField] private PaintAngles paintAngles;
     [SerializeField] private float angleAdjustSensitivity;
 
+    // Scan speed is how fast the scan goes, scan poll rate is how often dots are drawn while scanning;
+    [SerializeField] private Transform scanRayContainer;
+    [SerializeField] private int numOfScanRays;
+    [SerializeField] private float verticalScanAngle;
+    [SerializeField] private float horizontalScanAngle;
+    [SerializeField] private float scanRate;
+
     private float paintAngle;
+    private float scanAngle;
 
     private GameObject[,] paintRays;
     private GameObject[] scanRays;
@@ -30,10 +40,15 @@ public class RayGun : MonoBehaviour
     {
         set
         {
+            if (scanAngle > 0)
+                return;
+
             if (scanning = value)
             {
+                scanAngle = Mathf.PI;
                 Painting = false;
             }
+            SetRaysActive(scanRays, scanning);
         }
     }
 
@@ -41,15 +56,34 @@ public class RayGun : MonoBehaviour
     {
         set
         {
-            if (painting = value)
-            {
-                Scanning = false;
-            }
+            if (scanning)
+                return;
+
+            painting = value;
             SetRaysActive(paintRays, painting);
         }
     }
 
     private void Awake()
+    {
+        SetupPainting();
+        SetupScanning();
+    }
+
+    private void Update()
+    {
+        // Must set barrel light active first since Painting tries to deactivate itself every frame
+        barrelLight.SetActive(painting || scanning);
+        Paint();
+        Scan(Time.deltaTime);
+    }
+
+    public void AdjustPaintAngle(float scrollDelta)
+    {
+        paintAngle = Mathf.Clamp(paintAngle + scrollDelta * angleAdjustSensitivity, paintAngles.min, paintAngles.max);
+    }
+
+    private void SetupPainting()
     {
         paintRays = new GameObject[raysPerLayer, numOfLayers];
         paintAngle = paintAngles.initial;
@@ -58,30 +92,22 @@ public class RayGun : MonoBehaviour
         {
             for (int j = 0; j < raysPerLayer; j++)
             {
-                paintRays[i, j] = Instantiate(rayPrefab, rayContainer);
+                paintRays[i, j] = Instantiate(rayPrefab, paintRayContainer);
             }
         }
 
-        Scanning = Painting = false;
+        Painting = false;
     }
 
-    private void Update()
+    private void SetupScanning()
     {
-        // Must set barrel light active first since paint and scan deactivate themselves
-        barrelLight.SetActive(painting || scanning);
-        Paint();
-        Scan();
-    }
+        scanRays = new GameObject[numOfScanRays];
+        scanAngle = -1;
 
-    public void AdjustPaintAngle(float scrollDelta)
-    {
-        paintAngle = Mathf.Clamp(paintAngle + scrollDelta * angleAdjustSensitivity, paintAngles.min, paintAngles.max);
-    }
-
-    private void Scan()
-    {
-        if (!scanning)
-            return;
+        for (int i = 0; i < numOfScanRays; i++)
+        {
+            scanRays[i] = Instantiate(rayPrefab, scanRayContainer);
+        }
 
         Scanning = false;
     }
@@ -94,6 +120,18 @@ public class RayGun : MonoBehaviour
 
         AdjustPaintRays();
         Painting = false;
+    }
+
+    // Scan the geometry, drawing horizontal lines down the geometry
+    private void Scan(float deltaTime)
+    {
+        if (!scanning)
+            return;
+
+        scanAngle -= scanRate * deltaTime;
+        AdjustScanRays();
+
+        Scanning = false;
     }
 
     // Randomizes the orientation of all paint rays, resizes them to the distance from the surface they hit, and paints
@@ -119,10 +157,30 @@ public class RayGun : MonoBehaviour
         }
     }
 
+    private void AdjustScanRays()
+    {
+        RaycastHit hit = new RaycastHit();
+
+        for (int i = 0; i < numOfScanRays; i++)
+        {
+            if (AdjustScanRayFromRaycast(
+                scanRays[i].transform, horizontalScanAngle,
+                verticalScanAngle,
+                Mathf.PI * ((float)i / numOfScanRays - 1),
+                scanAngle,
+                ref hit))
+            {
+                CreateDotFromRaycast(hit);
+            }
+        }
+    }
+
     // Tries to adjust the paint ray from a raycast, returning whether the raycast hit was successful
     private bool AdjustPaintRayFromRaycast(Transform ray, float angleFromCenter, float radians, ref RaycastHit hit)
     {
-        OrientRay(ray, angleFromCenter, radians);
+        // Orient the ray
+        ray.localEulerAngles = angleFromCenter *
+            new Vector3(Mathf.Sin(radians), Mathf.Cos(radians), 0);
 
         if (!Physics.Raycast(ray.position, ray.forward, out hit, rayDistance))
         {
@@ -134,10 +192,23 @@ public class RayGun : MonoBehaviour
         return true;
     }
 
-    private void OrientRay(Transform ray, float angleFromCenter, float radians)
+    // Tries to adjust the scan ray from a raycast, returning whether the raycast hit was successful
+    private bool AdjustScanRayFromRaycast(Transform ray, float horizontalAngle, float verticalAngle,
+        float horizontalRadians, float verticalRadians, ref RaycastHit hit)
     {
-        ray.localEulerAngles = angleFromCenter *
-            new Vector3(Mathf.Sin(radians), Mathf.Cos(radians), 0);
+        // Orient the ray
+        ray.localEulerAngles = new Vector3(
+            Mathf.Cos(verticalRadians) * verticalAngle,
+            Mathf.Cos(horizontalRadians) * horizontalAngle, 0);
+
+        if (!Physics.Raycast(ray.position, ray.forward, out hit, rayDistance))
+        {
+            ResizeRay(ray, 0);
+            return false;
+        }
+
+        ResizeRay(ray, hit.distance);
+        return true;
     }
 
     private void ResizeRay(Transform ray, float length)
@@ -150,11 +221,10 @@ public class RayGun : MonoBehaviour
         dotRenderer.CreateDot(
             hit.point, 
             Quaternion.FromToRotation(Vector3.forward, hit.transform.forward),
-            dotColor
-            );
+            dotColor);
     }
 
-    private void SetRaysActive(GameObject[,] rays, bool active)
+    private void SetRaysActive(Array rays, bool active)
     {
         foreach (GameObject ray in rays)
         {
