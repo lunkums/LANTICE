@@ -10,6 +10,7 @@ public class RayGun : MonoBehaviour
     [SerializeField] private float rayDistance;
     [SerializeField] private int raysPerLayer;
     [SerializeField] private int numOfLayers;
+    [SerializeField] private GameObject barrelLight;
     [SerializeField] private PaintAngles paintAngles;
     [SerializeField] private float angleAdjustSensitivity;
 
@@ -62,6 +63,7 @@ public class RayGun : MonoBehaviour
 
     private void Update()
     {
+        barrelLight.SetActive(painting || scanning);
         Paint();
         Scan();
     }
