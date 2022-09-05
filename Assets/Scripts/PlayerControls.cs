@@ -8,6 +8,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private PlayerMovement movement;
     [SerializeField] private RayGun rayGun;
     [SerializeField] private FirstPersonView firstPersonView;
+    [SerializeField] private DotRenderer dotRenderer;
 
     private KeyboardController keyboardController;
     private MouseController mouseController;
@@ -45,7 +46,8 @@ public class PlayerControls : MonoBehaviour
     {
         keyboardController = new KeyboardController(
             new Dictionary<KeyCode, Action>(){
-                { KeyCode.Escape, Pause }
+                { KeyCode.Escape, Pause },
+                { KeyCode.F12, dotRenderer.Clear },
             },
             new Dictionary<KeyCode, Action>() { },
             new Dictionary<KeyCode, Action>() {

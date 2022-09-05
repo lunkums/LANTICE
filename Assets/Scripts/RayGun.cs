@@ -5,12 +5,16 @@ using Random = UnityEngine.Random;
 public class RayGun : MonoBehaviour
 {
     [SerializeField] private DotRenderer dotRenderer;
+    [SerializeField] private Color dotColor = Color.white;
+
     [SerializeField] private Transform rayContainer;
     [SerializeField] private GameObject rayPrefab;
     [SerializeField] private float rayDistance;
     [SerializeField] private int raysPerLayer;
     [SerializeField] private int numOfLayers;
+
     [SerializeField] private GameObject barrelLight;
+
     [SerializeField] private PaintAngles paintAngles;
     [SerializeField] private float angleAdjustSensitivity;
 
@@ -63,6 +67,7 @@ public class RayGun : MonoBehaviour
 
     private void Update()
     {
+        // Must set barrel light active first since paint and scan deactivate themselves
         barrelLight.SetActive(painting || scanning);
         Paint();
         Scan();
@@ -145,7 +150,7 @@ public class RayGun : MonoBehaviour
         dotRenderer.CreateDot(
             hit.point, 
             Quaternion.FromToRotation(Vector3.forward, hit.transform.forward),
-            Color.white
+            dotColor
             );
     }
 

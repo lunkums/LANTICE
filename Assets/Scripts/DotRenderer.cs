@@ -51,6 +51,14 @@ public class DotRenderer : MonoBehaviour
         activeMeshInstances = (activeMeshInstances + 1) % population;
     }
 
+    // Should be used carefully as a debug action
+    public void Clear()
+    {
+        meshPropertiesBuffer.Release();
+        meshPropertiesBuffer = new ComputeBuffer(population, MeshProperties.Size());
+        material.SetBuffer("_Properties", meshPropertiesBuffer);
+    }
+
     private void Setup()
     {
         mesh = CreateQuad();
