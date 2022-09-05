@@ -3,16 +3,17 @@ using Random = UnityEngine.Random;
 
 public class Scanner : RayGunMode
 {
-    [SerializeField] private Transform scanRayContainer;
-    [SerializeField] private int numOfScanRays;
+    [SerializeField] private Transform rayContainer;
+    [SerializeField] private int numOfRays;
     [SerializeField] private float verticalScanAngle;
     [SerializeField] private float horizontalScanAngle;
     [SerializeField] private float scanRate;
 
-    private float scanAngleRadians;
-    // Either 1 or 0 - used to randomly sample half of all scan rays while scanning
+    // Scan ray pass either 1 or 0 - used to determine which rays to randomly sample (only draws dots for half of all
+    // rays)
     private int scanRayPass;
-    private GameObject[] scanRays;
+    private GameObject[] rays;
+    private float scanAngleRadians;
 
     private bool scanning;
 
@@ -25,22 +26,20 @@ public class Scanner : RayGunMode
                 return;
 
             scanning = value;
-            SetRaysActive(scanRays, scanning);
+            SetRaysActive(rays, scanning);
             scanAngleRadians = scanning ? Mathf.PI : -1;
         }
     }
 
-    public void Setup(DotRenderer dotRenderer, float rayDistance, Color dotColor, GameObject rayPrefab)
+    public override void InitializeRays(GameObject rayPrefab)
     {
-        Setup(dotRenderer, rayDistance, dotColor);
-
-        scanRays = new GameObject[numOfScanRays];
+        rays = new GameObject[numOfRays];
         scanAngleRadians = -1;
         scanRayPass = 0;
 
-        for (int i = 0; i < numOfScanRays; i++)
+        for (int i = 0; i < numOfRays; i++)
         {
-            scanRays[i] = Instantiate(rayPrefab, scanRayContainer);
+            rays[i] = Instantiate(rayPrefab, rayContainer);
         }
 
         Scanning = false;
@@ -53,23 +52,23 @@ public class Scanner : RayGunMode
             return;
 
         scanAngleRadians -= scanRate * deltaTime;
-        AdjustScanRays();
+        AdjustRays();
 
         Scanning = false;
     }
 
-    private void AdjustScanRays()
+    private void AdjustRays()
     {
         RaycastHit hit = new RaycastHit();
         scanRayPass = (scanRayPass + 1) % 2;
 
-        for (int i = 0; i < numOfScanRays; i++)
+        for (int i = 0; i < numOfRays; i++)
         {
-            if (AdjustScanRayFromRaycast(
-                scanRays[i].transform,
+            if (AdjustRayFromRaycast(
+                rays[i].transform,
                 horizontalScanAngle,
                 verticalScanAngle,
-                Mathf.PI * Random.Range(i / (float)numOfScanRays, i + 1 / (float)numOfScanRays),
+                Mathf.PI * Random.Range(i / (float)numOfRays, i + 1 / (float)numOfRays),
                 scanAngleRadians,
                 ref hit)
                 && i % 2 == scanRayPass)
@@ -80,7 +79,7 @@ public class Scanner : RayGunMode
     }
 
     // Tries to adjust the scan ray from a raycast, returning whether the raycast hit was successful
-    private bool AdjustScanRayFromRaycast(Transform ray, float horizontalAngle, float verticalAngle,
+    private bool AdjustRayFromRaycast(Transform ray, float horizontalAngle, float verticalAngle,
         float horizontalRadians, float verticalRadians, ref RaycastHit hit)
     {
         // Orient the ray

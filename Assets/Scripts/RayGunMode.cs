@@ -9,11 +9,15 @@ public abstract class RayGunMode : MonoBehaviour
 
     public float RayDistance => rayDistance;
 
-    protected void Setup(DotRenderer dotRenderer, float rayDistance, Color dotColor)
+    public abstract void InitializeRays(GameObject rayPrefab);
+
+    public void Setup(DotRenderer dotRenderer, float rayDistance, Color dotColor, GameObject rayPrefab)
     {
         this.dotRenderer = dotRenderer;
         this.rayDistance = rayDistance;
         this.dotColor = dotColor;
+
+        InitializeRays(rayPrefab);
     }
 
     public void ResizeRay(Transform ray, float length)
