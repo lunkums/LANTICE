@@ -70,3 +70,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Third-party Assets - LUNKUMS
+/Assets/Thirdparty/CreepyHeadlessStatue/
+/Assets/Thirdparty/CreepyHeadlessStatue.meta

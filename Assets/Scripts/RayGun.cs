@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -164,9 +162,10 @@ public class RayGun : MonoBehaviour
         for (int i = 0; i < numOfScanRays; i++)
         {
             if (AdjustScanRayFromRaycast(
-                scanRays[i].transform, horizontalScanAngle,
+                scanRays[i].transform,
+                horizontalScanAngle,
                 verticalScanAngle,
-                Mathf.PI * ((float)i / numOfScanRays - 1),
+                Mathf.PI * Random.Range(i / (float)numOfScanRays, i + 1 / (float)numOfScanRays),
                 scanAngle,
                 ref hit))
             {
