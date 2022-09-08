@@ -1,4 +1,5 @@
 using Lunkums.Controller;
+using Lunkums.Util;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,8 +14,12 @@ public class PlayerControls : MonoBehaviour
     private KeyboardController keyboardController;
     private MouseController mouseController;
 
+    // Should be 1 or -1
+    private int scrollInvert = -1;
+
     private Vector2 MouseMoveDelta => new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-    private float MouseScrollDelta => Input.GetAxisRaw("Mouse ScrollWheel");
+    private float MouseScrollDelta => Input.GetAxisRaw("Mouse ScrollWheel") * scrollInvert;
+    public bool InvertScrolling { get => scrollInvert.IsPositive(); set => scrollInvert = value ? 1 : -1; }
 
     private void Start()
     {

@@ -43,6 +43,11 @@ public class Painter : RayGunMode
 
     public void AdjustAngle(float scrollDelta)
     {
+        // Return if not painting so rays don't awkwardly jump to the new angle after adjusting while painting is off.
+        // Could also call AdjustRays() right before enabling them, similar to scanner.
+        if (!painting)
+            return;
+
         paintAngle = Mathf.Clamp(paintAngle + scrollDelta * angleAdjustSensitivity, angles.min, angles.max);
     }
 
