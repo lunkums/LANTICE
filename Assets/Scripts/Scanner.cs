@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Scanner : RayGunMode
@@ -26,8 +27,8 @@ public class Scanner : RayGunMode
                 return;
 
             scanning = value;
-            SetRaysActive(rays, scanning);
             scanAngleRadians = scanning ? Mathf.PI : -1;
+            SetRaysActive(rays, scanning);
         }
     }
 
@@ -95,5 +96,16 @@ public class Scanner : RayGunMode
 
         ResizeRay(ray, hit.distance);
         return true;
+    }
+
+    public new void SetRaysActive(Array rays, bool active)
+    {
+        // Adjust rays before enabling them so they don't appear to jump to the top of the screen
+        if (active)
+        {
+            AdjustRays();
+        }
+
+        base.SetRaysActive(rays, active);
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Obsolete("Previously used for rendering rays; use capsules or cylinders instead.")]
 public class LineBaker : MonoBehaviour
 {
     [SerializeField] private Material material;
