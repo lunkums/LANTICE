@@ -43,8 +43,8 @@ public class Painter : RayGunMode
 
     public void AdjustAngle(float scrollDelta)
     {
-        // Return if not painting so rays don't awkwardly jump to the new angle after adjusting while painting is off.
-        // Could also call AdjustRays() right before enabling them, similar to scanner.
+        // Return if not painting so rays don't awkwardly jump to the new angle after adjusting while painting is off
+        // Could also call AdjustRays() right before enabling them, similar to scanner
         if (!painting)
             return;
 
@@ -87,18 +87,16 @@ public class Painter : RayGunMode
     // Tries to adjust the paint ray from a raycast, returning whether the raycast hit was successful
     private bool AdjustRayFromRaycast(Transform ray, float angleFromCenter, float radians, ref RaycastHit hit)
     {
+        bool successfulHit;
+
         // Orient the ray
         ray.localEulerAngles = angleFromCenter *
             new Vector3(Mathf.Sin(radians), Mathf.Cos(radians), 0);
 
-        if (!Physics.Raycast(ray.position, ray.forward, out hit, RayDistance))
-        {
-            ResizeRay(ray, 0);
-            return false;
-        }
-
+        successfulHit = Raycast(ray.position, ray.forward, out hit);
         ResizeRay(ray, hit.distance);
-        return true;
+
+        return successfulHit;
     }
 
     // Paint angles are measured from center line to edge of paint volume (half of the "point" angle of a cone)

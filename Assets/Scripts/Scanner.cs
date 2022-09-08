@@ -83,28 +83,24 @@ public class Scanner : RayGunMode
     private bool AdjustRayFromRaycast(Transform ray, float horizontalAngle, float verticalAngle,
         float horizontalRadians, float verticalRadians, ref RaycastHit hit)
     {
+        bool successfulHit;
+
         // Orient the ray
         ray.localEulerAngles = new Vector3(
             Mathf.Cos(verticalRadians) * verticalAngle,
             Mathf.Cos(horizontalRadians) * horizontalAngle, 0);
 
-        if (!Physics.Raycast(ray.position, ray.forward, out hit, RayDistance))
-        {
-            ResizeRay(ray, 0);
-            return false;
-        }
-
+        successfulHit = Raycast(ray.position, ray.forward, out hit);
         ResizeRay(ray, hit.distance);
-        return true;
+
+        return successfulHit;
     }
 
     public new void SetRaysActive(Array rays, bool active)
     {
         // Adjust rays before enabling them so they don't appear to jump to the top of the screen
         if (active)
-        {
             AdjustRays();
-        }
 
         base.SetRaysActive(rays, active);
     }

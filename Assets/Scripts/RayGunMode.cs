@@ -5,19 +5,31 @@ public abstract class RayGunMode : MonoBehaviour
 {
     private DotRenderer dotRenderer;
     private float rayDistance;
+    private LayerMask layerMask;
     private Color dotColor;
-
-    public float RayDistance => rayDistance;
 
     public abstract void InitializeRays(GameObject rayPrefab);
 
-    public void Setup(DotRenderer dotRenderer, float rayDistance, Color dotColor, GameObject rayPrefab)
+    public void Setup(DotRenderer dotRenderer, float rayDistance,
+        LayerMask layerMask, Color dotColor, GameObject rayPrefab)
     {
         this.dotRenderer = dotRenderer;
         this.rayDistance = rayDistance;
+        this.layerMask = layerMask;
         this.dotColor = dotColor;
 
         InitializeRays(rayPrefab);
+    }
+
+    // Attempt a raycast, defaulting the hit distance to 0 if it fails
+    public bool Raycast(Vector3 origin, Vector3 direction, out RaycastHit hitInfo)
+    {
+        if (!Physics.Raycast(origin, direction, out hitInfo, rayDistance, layerMask))
+        {
+            hitInfo.distance = 0;
+            return false;
+        }
+        return true;
     }
 
     public void ResizeRay(Transform ray, float length)

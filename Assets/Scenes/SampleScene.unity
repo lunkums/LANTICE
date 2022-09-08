@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 83052450}
   - component: {fileID: 83052449}
   - component: {fileID: 83052448}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,7 +654,7 @@ GameObject:
   - component: {fileID: 352788453}
   - component: {fileID: 352788452}
   - component: {fileID: 352788451}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 414234010}
   - component: {fileID: 414234009}
   - component: {fileID: 414234008}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1017,7 +1017,7 @@ GameObject:
   - component: {fileID: 426921623}
   - component: {fileID: 426921622}
   - component: {fileID: 426921621}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1932,7 +1932,10 @@ MonoBehaviour:
   dotRenderer: {fileID: 707839162}
   dotColor: {r: 1, g: 0.98466223, b: 0.7971698, a: 1}
   rayPrefab: {fileID: 35696748557442695, guid: d973917efb4127c49b8fb5f82ac91525, type: 3}
-  rayDistance: 50
+  rayDistance: 25
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
   barrelLight: {fileID: 479451202}
   scanner: {fileID: 2076901419}
   painter: {fileID: 378121149}
@@ -2185,7 +2188,7 @@ GameObject:
   - component: {fileID: 1399401330}
   - component: {fileID: 1399401329}
   - component: {fileID: 1399401328}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2518,7 +2521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1591743573}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2825,7 +2828,7 @@ GameObject:
   - component: {fileID: 2099540400}
   - component: {fileID: 2099540399}
   - component: {fileID: 2099540398}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

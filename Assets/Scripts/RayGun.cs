@@ -7,6 +7,7 @@ public class RayGun : MonoBehaviour
 
     [SerializeField] private GameObject rayPrefab;
     [SerializeField] private float rayDistance;
+    [SerializeField] private LayerMask layerMask;
 
     [SerializeField] private GameObject barrelLight;
 
@@ -37,8 +38,8 @@ public class RayGun : MonoBehaviour
 
     private void Awake()
     {
-        painter.Setup(dotRenderer, rayDistance, dotColor, rayPrefab);
-        scanner.Setup(dotRenderer, rayDistance, dotColor, rayPrefab);
+        painter.Setup(dotRenderer, rayDistance, layerMask, dotColor, rayPrefab);
+        scanner.Setup(dotRenderer, rayDistance, layerMask, dotColor, rayPrefab);
     }
 
     private void Update()
