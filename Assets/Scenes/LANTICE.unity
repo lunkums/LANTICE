@@ -2643,6 +2643,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Point Renderer
       objectReference: {fileID: 0}
+    - target: {fileID: 3565451604022324827, guid: 31eec69347d81df46a8c9d2f2561641d,
+        type: 3}
+      propertyPath: effectContainer
+      value: 
+      objectReference: {fileID: 1673031279}
     - target: {fileID: 3565451604022324828, guid: 31eec69347d81df46a8c9d2f2561641d,
         type: 3}
       propertyPath: m_RootOrder
@@ -2712,6 +2717,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c021cc0a5dd7c740b79387fe77922c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1673031279 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3565451604022324828, guid: 31eec69347d81df46a8c9d2f2561641d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1673031277}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1701418491
 GameObject:
   m_ObjectHideFlags: 0
