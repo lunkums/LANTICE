@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c021cc0a5dd7c740b79387fe77922c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectsContainer: {fileID: 3565451604022324828}
-  visualEffectPrefab: {fileID: 4589058425741210594, guid: 9dbbc55c59209ff4db29cf48b49008af,
+  effectPrefab: {fileID: 4589058425741210594, guid: 9dbbc55c59209ff4db29cf48b49008af,
     type: 3}
-  spawnEventName: Spawn
-  texturePropertyName: Positions
+  effectContainer: {fileID: 3565451604022324826}
+  capacity: 16384

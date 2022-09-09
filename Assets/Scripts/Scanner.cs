@@ -10,9 +10,6 @@ public class Scanner : RayGunMode
     [SerializeField] private float horizontalScanAngle;
     [SerializeField] private float scanRate;
 
-    // Scan ray pass either 1 or 0 - used to determine which rays to randomly sample (only draws dots for half of all
-    // rays)
-    private int scanRayPass;
     private GameObject[] rays;
     private float scanAngleRadians;
 
@@ -36,7 +33,6 @@ public class Scanner : RayGunMode
     {
         rays = new GameObject[numOfRays];
         scanAngleRadians = -1;
-        scanRayPass = 0;
 
         for (int i = 0; i < numOfRays; i++)
         {
@@ -61,7 +57,6 @@ public class Scanner : RayGunMode
     private void AdjustRays()
     {
         RaycastHit hit = new RaycastHit();
-        scanRayPass = (scanRayPass + 1) % 2;
 
         for (int i = 0; i < numOfRays; i++)
         {
@@ -71,8 +66,7 @@ public class Scanner : RayGunMode
                 verticalScanAngle,
                 Mathf.PI * Random.Range(i / (float)numOfRays, i + 1 / (float)numOfRays),
                 scanAngleRadians,
-                ref hit)
-                && i % 2 == scanRayPass)
+                ref hit))
             {
                 CreateDotFromRaycast(hit);
             }
