@@ -48,4 +48,4 @@ MonoBehaviour:
   visualEffectPrefab: {fileID: 4589058425741210594, guid: 9dbbc55c59209ff4db29cf48b49008af,
     type: 3}
   spawnEventName: Spawn
-  positionPropertyName: Position
+  texturePropertyName: Positions
