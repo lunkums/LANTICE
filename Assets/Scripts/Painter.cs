@@ -14,6 +14,7 @@ public class Painter : RayGunMode
     private GameObject[,] paintRays;
 
     private bool painting;
+    private int pointCount = 0;
 
     public bool Painting
     {
@@ -74,7 +75,10 @@ public class Painter : RayGunMode
             RaycastHit hit = new RaycastHit();
 
             if (AdjustRayFromRaycast(paintRays[i, 0].transform, angleFromCenter, radianOffset, ref hit))
+            {
                 CreateDotFromRaycast(hit);
+                pointCount++;
+            }
 
             for (int j = 1; j < raysPerLayer; j++)
             {

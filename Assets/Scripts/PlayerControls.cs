@@ -9,7 +9,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private PlayerMovement movement;
     [SerializeField] private RayGun rayGun;
     [SerializeField] private FirstPersonView firstPersonView;
-    [SerializeField] private DotRenderer dotRenderer;
+    [SerializeField] private PointRenderer pointRenderer;
 
     private KeyboardController keyboardController;
     private MouseController mouseController;
@@ -52,7 +52,7 @@ public class PlayerControls : MonoBehaviour
         keyboardController = new KeyboardController(
             new Dictionary<KeyCode, Action>(){
                 { KeyCode.Escape, Pause },
-                { KeyCode.F12, dotRenderer.Clear },
+                { KeyCode.F12, pointRenderer.ClearAllPoints },
             },
             new Dictionary<KeyCode, Action>() {
                 { KeyCode.Mouse0, () => rayGun.Scanning = true },

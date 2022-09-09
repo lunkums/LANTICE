@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class RayGun : MonoBehaviour
 {
-    [SerializeField] private DotRenderer dotRenderer;
-    [SerializeField] private Color dotColor = Color.white;
+    [SerializeField] private PointRenderer pointRenderer;
 
     [SerializeField] private GameObject rayPrefab;
     [SerializeField] private float rayDistance;
@@ -38,8 +37,8 @@ public class RayGun : MonoBehaviour
 
     private void Awake()
     {
-        painter.Setup(dotRenderer, rayDistance, layerMask, dotColor, rayPrefab);
-        scanner.Setup(dotRenderer, rayDistance, layerMask, dotColor, rayPrefab);
+        painter.Setup(pointRenderer, rayDistance, layerMask, rayPrefab);
+        scanner.Setup(pointRenderer, rayDistance, layerMask, rayPrefab);
     }
 
     private void Update()

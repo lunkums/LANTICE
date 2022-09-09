@@ -3,20 +3,18 @@ using UnityEngine;
 
 public abstract class RayGunMode : MonoBehaviour
 {
-    private DotRenderer dotRenderer;
+    private PointRenderer pointRenderer;
     private float rayDistance;
     private LayerMask layerMask;
-    private Color dotColor;
 
     public abstract void InitializeRays(GameObject rayPrefab);
 
-    public void Setup(DotRenderer dotRenderer, float rayDistance,
-        LayerMask layerMask, Color dotColor, GameObject rayPrefab)
+    public void Setup(PointRenderer pointRenderer, float rayDistance,
+        LayerMask layerMask, GameObject rayPrefab)
     {
-        this.dotRenderer = dotRenderer;
+        this.pointRenderer = pointRenderer;
         this.rayDistance = rayDistance;
         this.layerMask = layerMask;
-        this.dotColor = dotColor;
 
         InitializeRays(rayPrefab);
     }
@@ -39,10 +37,7 @@ public abstract class RayGunMode : MonoBehaviour
 
     public void CreateDotFromRaycast(RaycastHit hit)
     {
-        dotRenderer.CreateDot(
-            hit.point,
-            Quaternion.FromToRotation(Vector3.forward, hit.transform.forward),
-            dotColor);
+        pointRenderer.CreatePoint(hit.point);
     }
 
     public void SetRaysActive(Array rays, bool active)

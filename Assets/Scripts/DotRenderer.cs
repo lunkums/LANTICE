@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Obsolete("Bottlenecked by the compute buffer size; use VFX graph instead.")]
 public class DotRenderer : MonoBehaviour
 {
     [SerializeField] private int population;
