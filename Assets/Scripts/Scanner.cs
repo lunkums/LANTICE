@@ -12,7 +12,7 @@ public class Scanner : RayGunMode
     [SerializeField] private float scanRate;
 
     private GameObject[] rays;
-    private float scanAngleRadians;
+    private float scanAngle;
 
     private bool scanning;
 
@@ -21,11 +21,11 @@ public class Scanner : RayGunMode
         get => scanning;
         set
         {
-            if (scanAngleRadians > 0)
+            if (scanAngle < verticalScanAngle)
                 return;
 
             scanning = value;
-            scanAngleRadians = scanning ? Mathf.PI : -1;
+            scanAngle = scanning ? -verticalScanAngle : verticalScanAngle;
             SetRaysActive(rays, scanning);
         }
     }
@@ -33,7 +33,7 @@ public class Scanner : RayGunMode
     public override void InitializeRays(GameObject rayPrefab)
     {
         rays = new GameObject[numOfRays];
-        scanAngleRadians = -1;
+        scanAngle = verticalScanAngle;
 
         for (int i = 0; i < numOfRays; i++)
         {
@@ -49,7 +49,7 @@ public class Scanner : RayGunMode
         if (!scanning)
             return;
 
-        scanAngleRadians -= scanRate * deltaTime;
+        scanAngle += scanRate * deltaTime;
         AdjustRays();
 
         Scanning = false;
@@ -64,9 +64,8 @@ public class Scanner : RayGunMode
             if (AdjustRayFromRaycast(
                 rays[i].transform,
                 horizontalScanAngle,
-                verticalScanAngle,
+                scanAngle,
                 Mathf.PI * Random.Range(i / (float)numOfRays, i + 1 / (float)numOfRays),
-                scanAngleRadians,
                 ref hit))
             {
                 CreateDotFromRaycast(hit);
@@ -76,14 +75,12 @@ public class Scanner : RayGunMode
 
     // Tries to adjust the scan ray from a raycast, returning whether the raycast hit was successful
     private bool AdjustRayFromRaycast(Transform ray, float horizontalAngle, float verticalAngle,
-        float horizontalRadians, float verticalRadians, ref RaycastHit hit)
+        float horizontalRadians, ref RaycastHit hit)
     {
         bool successfulHit;
 
         // Orient the ray
-        ray.localEulerAngles = new Vector3(
-            Mathf.Cos(verticalRadians) * verticalAngle,
-            Mathf.Cos(horizontalRadians) * horizontalAngle, 0);
+        ray.localEulerAngles = new Vector3(verticalAngle, Mathf.Cos(horizontalRadians) * horizontalAngle, 0);
 
         successfulHit = Raycast(ray.position, ray.forward, out hit);
         ResizeRay(ray, hit.distance);

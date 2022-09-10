@@ -66,21 +66,20 @@ public class Painter : RayGunMode
     // a dot for the first ray in each ray layer
     private void AdjustRays()
     {
+        RaycastHit hit = new RaycastHit();
+
         for (int i = 0; i < numOfLayers; i++)
         {
             float angleFromCenter = Random.Range(
                 paintAngle * (i / (float)numOfLayers),
                 paintAngle * ((i + 1) / (float)numOfLayers));
             float radianOffset = Random.Range(0, 2 * Mathf.PI);
-            RaycastHit hit = new RaycastHit();
-
-            if (AdjustRayFromRaycast(paintRays[i, 0].transform, angleFromCenter, radianOffset, ref hit))
-                CreateDotFromRaycast(hit);
 
             for (int j = 1; j < raysPerLayer; j++)
             {
                 float radians = 2 * Mathf.PI * (j / (float)raysPerLayer) + radianOffset;
-                AdjustRayFromRaycast(paintRays[i, j].transform, angleFromCenter, radians, ref hit);
+                if (AdjustRayFromRaycast(paintRays[i, j].transform, angleFromCenter, radians, ref hit))
+                    CreateDotFromRaycast(hit);
             }
         }
     }

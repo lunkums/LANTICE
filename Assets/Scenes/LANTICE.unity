@@ -2007,7 +2007,7 @@ MonoBehaviour:
     numOfRays: 100
     verticalScanAngle: 30
     horizontalScanAngle: 50
-    scanRate: 1
+    scanRate: 30
   painter:
     rayContainer: {fileID: 378121148}
     raysPerLayer: 10

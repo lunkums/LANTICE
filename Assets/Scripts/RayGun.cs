@@ -41,12 +41,12 @@ public class RayGun : MonoBehaviour
         scanner.Setup(pointRenderer, rayDistance, layerMask, rayPrefab);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Must set barrel light active first since Painting tries to deactivate itself every frame
         barrelLight.SetActive(Painting || Scanning);
         painter.Paint();
-        scanner.Scan(Time.deltaTime);
+        scanner.Scan(Time.fixedDeltaTime);
     }
 
     public void AdjustPaintAngle(float scrollDelta)
