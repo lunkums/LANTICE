@@ -37,7 +37,7 @@ public abstract class RayGunMode : MonoBehaviour
 
     public void CreateDotFromRaycast(RaycastHit hit)
     {
-        pointRenderer.CreatePoint(hit.point);
+        pointRenderer.CachePoint(hit.point);
     }
 
     public void SetRaysActive(Array rays, bool active)
