@@ -2,6 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
 public class Scanner : RayGunMode
 {
     [SerializeField] private Transform rayContainer;
@@ -36,7 +37,7 @@ public class Scanner : RayGunMode
 
         for (int i = 0; i < numOfRays; i++)
         {
-            rays[i] = Instantiate(rayPrefab, rayContainer);
+            rays[i] = GameObject.Instantiate(rayPrefab, rayContainer);
         }
 
         Scanning = false;

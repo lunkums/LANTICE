@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
 public class Painter : RayGunMode
 {
     [SerializeField] private Transform rayContainer;
@@ -34,7 +35,7 @@ public class Painter : RayGunMode
         {
             for (int j = 0; j < raysPerLayer; j++)
             {
-                paintRays[i, j] = Instantiate(rayPrefab, rayContainer);
+                paintRays[i, j] = GameObject.Instantiate(rayPrefab, rayContainer);
             }
         }
 

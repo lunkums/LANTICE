@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class RayGunMode : MonoBehaviour
+public abstract class RayGunMode
 {
     private PointRenderer pointRenderer;
     private float rayDistance;
