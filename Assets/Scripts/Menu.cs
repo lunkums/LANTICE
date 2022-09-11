@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+public class Menu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseCanvas;
+    [SerializeField] private FramerateCounter framerateCounter;
 
     private bool paused;
 
-    public static PauseMenu Instance { get; private set; }
+    public static Menu Instance { get; private set; }
 
     private void Awake()
     {
@@ -17,6 +18,11 @@ public class PauseMenu : MonoBehaviour
 
         paused = true;
         Pause();
+    }
+
+    public void ToggleDebug()
+    {
+        framerateCounter.Toggle();
     }
 
     public bool Pause()

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Thirdparty/RoofTop_SafeHouse/RTSH.unity
+    guid: eeabfdba185b5434a9eebab754a9ac66
+  - enabled: 1
     path: Assets/Scenes/LANTICE.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}

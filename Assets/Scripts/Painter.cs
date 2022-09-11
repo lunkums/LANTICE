@@ -75,7 +75,7 @@ public class Painter : RayGunMode
                 paintAngle * ((i + 1) / (float)numOfLayers));
             float radianOffset = Random.Range(0, 2 * Mathf.PI);
 
-            for (int j = 1; j < raysPerLayer; j++)
+            for (int j = 0; j < raysPerLayer; j++)
             {
                 float radians = 2 * Mathf.PI * (j / (float)raysPerLayer) + radianOffset;
                 if (AdjustRayFromRaycast(paintRays[i, j].transform, angleFromCenter, radians, ref hit))

@@ -7,13 +7,15 @@ public class FramerateCounter : MonoBehaviour
     private float pollingTime;
     private float time;
     private int frameCount;
+    private bool active;
 
     private void Awake()
     {
         pollingTime = 1;
+        active = false;
     }
 
-    void Update()
+    private void Update()
     {
         time += Time.deltaTime;
         frameCount++;
@@ -24,5 +26,11 @@ public class FramerateCounter : MonoBehaviour
             time -= pollingTime;
             frameCount = 0;
         }
+    }
+
+    public void Toggle()
+    {
+        active = !active;
+        text.enabled = active;
     }
 }

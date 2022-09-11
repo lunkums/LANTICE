@@ -50,10 +50,11 @@ public class PointRenderer : MonoBehaviour
 
     public void ClearAllPoints()
     {
-        while (effects.Count > 1)
+        while (effects.Count > 0)
         {
             Destroy(effects.Dequeue().gameObject);
         }
+        CreateNewEffect();
     }
 
     public void SetReferencePosition(Vector3 position)

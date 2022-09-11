@@ -35,7 +35,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Pause()
     {
-        if (PauseMenu.Instance.Pause())
+        if (Menu.Instance.Pause())
         {
             SetKeyboardPauseState();
             SetMousePauseState();
@@ -51,8 +51,10 @@ public class PlayerControls : MonoBehaviour
     {
         keyboardController = new KeyboardController(
             new Dictionary<KeyCode, Action>(){
+                { KeyCode.Space, movement.Jump },
+                { KeyCode.C, pointRenderer.ClearAllPoints },
                 { KeyCode.Escape, Pause },
-                { KeyCode.F12, pointRenderer.ClearAllPoints },
+                { KeyCode.F12, Menu.Instance.ToggleDebug },
             },
             new Dictionary<KeyCode, Action>() {
                 { KeyCode.Mouse0, () => rayGun.Scanning = true },
