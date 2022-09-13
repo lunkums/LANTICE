@@ -75,7 +75,8 @@ Having had to learn VFX graph for this project, I think I've figured out that it
 5. Every frame, set the pixels of the Texture2D using the array of Colors, apply the changes, pass the texture to the VFX graph, then reinitialize it to redraw the 6. points
 6. If the particle count exceeds the width of the Texture2D, then instantiate a new VisualEffect object and leave the old one alone
 7. (Optional) Apply a color gradient by using the distance to the point from the player (which you can pass into the VFX graph as a Vector3) as the parameter along the gradient
-  - This should be performed in the "UpdateParticle" step of the VFX graph lifecycle, otherwise, the points' colors will be static
+
+_Step 7 should be performed in the "UpdateParticle" step of the VFX graph lifecycle, otherwise, the points' colors will be static._
 
 <p align="center">
   <img src="./Images/vfxgraph.gif" alt="A LIDAR implementation using VFX graph"/>
