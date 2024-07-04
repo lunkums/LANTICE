@@ -1478,13 +1478,38 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5580840161254014198, guid: 705b103e0904caf4e8a917e22cb4e7fd,
         type: 3}
+      propertyPath: rayDistance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580840161254014198, guid: 705b103e0904caf4e8a917e22cb4e7fd,
+        type: 3}
       propertyPath: pointRenderer
       value: 
       objectReference: {fileID: 1673031278}
     - target: {fileID: 5580840161254014198, guid: 705b103e0904caf4e8a917e22cb4e7fd,
         type: 3}
+      propertyPath: scanner.scanRate
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580840161254014198, guid: 705b103e0904caf4e8a917e22cb4e7fd,
+        type: 3}
+      propertyPath: scanner.numOfRays
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580840161254014198, guid: 705b103e0904caf4e8a917e22cb4e7fd,
+        type: 3}
+      propertyPath: painter.numOfLayers
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580840161254014198, guid: 705b103e0904caf4e8a917e22cb4e7fd,
+        type: 3}
+      propertyPath: painter.raysPerLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5580840161254014198, guid: 705b103e0904caf4e8a917e22cb4e7fd,
+        type: 3}
       propertyPath: scanner.audioSource
-      value: 
+      value:
       objectReference: {fileID: 1048508218}
     - target: {fileID: 5580840161748066635, guid: 705b103e0904caf4e8a917e22cb4e7fd,
         type: 3}
@@ -1499,7 +1524,7 @@ PrefabInstance:
     - target: {fileID: 5580840161748066996, guid: 705b103e0904caf4e8a917e22cb4e7fd,
         type: 3}
       propertyPath: audioSource
-      value: 
+      value:
       objectReference: {fileID: 1701418498}
     - target: {fileID: 5580840161748066997, guid: 705b103e0904caf4e8a917e22cb4e7fd,
         type: 3}
