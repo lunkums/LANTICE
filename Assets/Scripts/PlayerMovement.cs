@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
-public class PlayerMovement: MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private CharacterController characterController;
     [SerializeField] private float horizontalSpeed;
     [SerializeField] private float verticalJumpSpeed;
     [SerializeField] private float gravity = 9.81f;
+    [SerializeField] private AudioSource audioSource;
 
     private Transform target;
 
@@ -36,6 +36,8 @@ public class PlayerMovement: MonoBehaviour
     {
         if (!characterController.isGrounded)
             return;
+
+        audioSource.Play();
 
         UpwardMotion = verticalJumpSpeed;
     }
