@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class Scanner : RayGunMode
 {
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private Transform rayContainer;
     [SerializeField] private int numOfRays;
     [SerializeField] private float verticalScanAngle;
@@ -47,7 +48,15 @@ public class Scanner : RayGunMode
     public void Scan(float deltaTime)
     {
         if (!scanning)
+        {
+            audioSource.Stop();
             return;
+        }
+
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
 
         scanAngle += scanRate * deltaTime;
         AdjustRays();
