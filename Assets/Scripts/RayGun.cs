@@ -39,6 +39,9 @@ public class RayGun : MonoBehaviour
     {
         painter.Setup(pointRenderer, rayDistance, layerMask, rayPrefab);
         scanner.Setup(pointRenderer, rayDistance, layerMask, rayPrefab);
+
+        Scanner.Instance ??= scanner;
+        Painter.Instance ??= painter;
     }
 
     private void FixedUpdate()

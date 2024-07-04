@@ -4,6 +4,7 @@ public class Menu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseCanvas;
     [SerializeField] private FramerateCounter framerateCounter;
+    [SerializeField] public AudioSource pingAudioSource;
 
     private bool paused;
 
@@ -52,5 +53,5 @@ public class Menu : MonoBehaviour
 #else
         Application.Quit();
 #endif
-    }    
+    }
 }

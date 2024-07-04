@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float horizontalSpeed;
     [SerializeField] private float verticalJumpSpeed;
     [SerializeField] private float gravity = 9.81f;
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource jumpAudioSource;
+    [SerializeField] private AudioSource runningAudioSource;
 
     private Transform target;
 
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 Velocity => HorizontalVelocity + VerticalVelocity;
     private bool IsJumping => UpwardMotion > 0;
 
+    private Vector3 prevVelocity;
 
     private void Awake()
     {
@@ -28,8 +30,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (prevVelocity != Velocity && !runningAudioSource.isPlaying)
+        {
+            runningAudioSource.Play();
+        }
+
+        if (prevVelocity == Velocity && runningAudioSource.isPlaying)
+        {
+            runningAudioSource.Stop();
+        }
+
         SetUpwardMotion(Time.deltaTime);
         ApplyMotion(Time.deltaTime, Velocity);
+
+        prevVelocity = Velocity;
     }
 
     public void Jump()
@@ -37,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         if (!characterController.isGrounded)
             return;
 
-        audioSource.Play();
+        jumpAudioSource.Play();
 
         UpwardMotion = verticalJumpSpeed;
     }

@@ -5,11 +5,14 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class Painter : RayGunMode
 {
+    public static Painter Instance { get; set; }
+
     [SerializeField] private Transform rayContainer;
     [SerializeField] private int raysPerLayer;
     [SerializeField] private int numOfLayers;
     [SerializeField] private Angles angles;
     [SerializeField] private float angleAdjustSensitivity;
+    [SerializeField] public AudioSource scanAudioSource;
 
     private float paintAngle;
     private GameObject[,] paintRays;
@@ -56,7 +59,15 @@ public class Painter : RayGunMode
     public void Paint()
     {
         if (!painting)
+        {
+            scanAudioSource.Stop();
             return;
+        }
+
+        if (!scanAudioSource.isPlaying)
+        {
+            scanAudioSource.Play();
+        }
 
         AdjustRays();
         Painting = false;

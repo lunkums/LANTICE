@@ -39,11 +39,18 @@ public class PlayerControls : MonoBehaviour
         {
             SetKeyboardPauseState();
             SetMousePauseState();
+
+            Init.Instance.backgroundPianoAudioSource.Pause();
+            Scanner.Instance.scanAudioSource.Pause();
+            Painter.Instance.scanAudioSource.Pause();
+            Menu.Instance.pingAudioSource.Play();
         }
         else
         {
             SetKeyboardPlayState();
             SetMousePlayState();
+
+            Init.Instance.backgroundPianoAudioSource.Play();
         }
     }
 
