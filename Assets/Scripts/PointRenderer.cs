@@ -13,6 +13,7 @@ public class PointRenderer : MonoBehaviour
 
     [SerializeField] private VisualEffect effectPrefab;
     [SerializeField] private Transform effectContainer;
+    [SerializeField] private AudioSource lixeiraAudioSource;
 
     private VisualEffect currentEffect;
     private Queue<VisualEffect> effects;
@@ -50,16 +51,19 @@ public class PointRenderer : MonoBehaviour
 
     public void ClearAllPoints()
     {
+        lixeiraAudioSource.Play();
+
         while (effects.Count > 0)
         {
             Destroy(effects.Dequeue().gameObject);
         }
+
         CreateNewEffect();
     }
 
     public void SetReferencePosition(Vector3 position)
     {
-        foreach(VisualEffect effect in effects)
+        foreach (VisualEffect effect in effects)
         {
             effect.SetVector3(REFERENCE_POS_PARAM_NAME, position);
         }
